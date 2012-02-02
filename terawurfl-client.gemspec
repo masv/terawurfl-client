@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "terawurfl-client"
-  s.version = "0.1.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Martin Svangren"]
-  s.date = "2012-01-31"
+  s.date = "2012-02-02"
   s.description = "A Tera-WURFL API client for Ruby"
   s.email = "martin@saltside.se"
   s.extra_rdoc_files = [
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "lib/terawurfl-client.rb",
     "lib/terawurfl-client/config.rb",
     "lib/terawurfl-client/device.rb",
+    "lib/terawurfl-client/mock.rb",
     "lib/terawurfl-client/version.rb",
     "spec/spec_helper.rb",
     "spec/terawurfl-client_spec.rb",
