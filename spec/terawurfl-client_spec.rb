@@ -53,4 +53,46 @@ describe "TerawurflClient" do
       expect { TerawurflClient::Device.new(ua).capabilities }.to raise_error(TerawurflClient::InvalidResponseData)
     end
   end
+
+  context "mocking" do
+    it "should be turned off by default" do
+      TerawurflClient.mock?.should be_false
+    end
+
+    it "should be turned on after mock!" do
+      TerawurflClient.mock!.should be_true
+      TerawurflClient.mock?.should be_true
+    end
+
+    it "should be turned off after unmock!" do
+      TerawurflClient.unmock!.should be_true
+      TerawurflClient.mock?.should be_false
+    end
+
+    describe "Device::Mock" do
+      before(:all) do
+        TerawurflClient.mock!
+      end
+
+      it "should return empty capabilities by default" do
+        TerawurflClient::Device.new("NyanCat/1.0").capabilities.should eq({})
+      end
+
+      it "should return mocked capabilities for a device" do
+        TerawurflClient::Device.mock("NyanCat/1.0", { :colors => "many" })
+        TerawurflClient::Device.new("NyanCat/1.0").capabilities[:colors].should eq("many")
+      end
+
+      it "should remove mocked capabilities for a device" do
+        TerawurflClient::Device.mock("NyanCat/1.0", { :colors => "many" })
+        TerawurflClient::Device.unmock("NyanCat/1.0")
+        TerawurflClient::Device.new("NyanCat/1.0").capabilities[:colors].should be_nil
+      end
+
+      it "should not return mocked capabilities for other devices" do
+        TerawurflClient::Device.mock("NyanCat/1.0", { :colors => "many" })
+        TerawurflClient::Device.new("NyanDog/1.0").capabilities[:colors].should be_nil
+      end
+    end
+  end
 end
