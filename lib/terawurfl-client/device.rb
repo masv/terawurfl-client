@@ -45,7 +45,11 @@ module TerawurflClient
                    :ua => @user_agent }
         uri.query = URI.encode_www_form(params)
 
-        response = Net::HTTP.get_response(uri)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.open_timeout = 2 # seconds
+        http.read_timeout = 2 # seconds
+        request = Net::HTTP::Get.new(uri.request_uri)
+        response = http.request(request)
 
         if response.is_a?(Net::HTTPSuccess)
           begin
