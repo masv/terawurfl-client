@@ -26,15 +26,17 @@ module TerawurflClient
       attr_reader :user_agent
 
       def initialize(user_agent)
+        @user_agent = user_agent
+        @api_url = TerawurflClient::Config.api_url
+
         unless user_agent.is_a?(String)
           raise(ArgumentError, "user_agent must be string")
         end
 
-        unless @api_url = TerawurflClient::Config.api_url
+        if !@api_url && !TerawurflClient.mock?
           raise(TerawurflClient::ConnectionError, "No API URL configured.")
         end
 
-        @user_agent = user_agent
       end
 
       def capabilities

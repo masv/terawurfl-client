@@ -98,6 +98,11 @@ describe "TerawurflClient" do
         TerawurflClient::Device.mock("NyanCat/1.0", { :colors => "many" })
         TerawurflClient::Device.new("NyanDog/1.0").capabilities[:colors].should be_nil
       end
+
+      it "should not require an API URL in mocking mode" do
+        TerawurflClient::Config.api_url = nil
+        expect { TerawurflClient::Device.new("NyanDog/1.0").capabilities }.to_not raise_error
+      end
     end
   end
 end
