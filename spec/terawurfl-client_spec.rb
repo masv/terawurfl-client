@@ -43,6 +43,11 @@ describe "TerawurflClient" do
       TerawurflClient::Device.new(ua).capabilities[:is_nyancat].should be_nil
     end
 
+    it "should raise an error if no API URL is configured" do
+      TerawurflClient::Config.api_url = nil
+      expect { TerawurflClient::Device.new(ua).capabilities }.to raise_error(TerawurflClient::ConnectionError)
+    end
+
     it "should raise an error if the HTTP response is not success" do
       TerawurflClient::Config.api_url = "http://broken.fake-wurfl.com/webservice.php"
       expect { TerawurflClient::Device.new(ua).capabilities }.to raise_error(TerawurflClient::ConnectionError)

@@ -30,6 +30,10 @@ module TerawurflClient
           raise(ArgumentError, "user_agent must be string")
         end
 
+        unless @api_url = TerawurflClient::Config.api_url
+          raise(TerawurflClient::ConnectionError, "No API URL configured.")
+        end
+
         @user_agent = user_agent
       end
 
